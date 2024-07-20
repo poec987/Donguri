@@ -20,7 +20,7 @@ void copyTilesInLocation(Location *loc, float x, float y, u8 layer, bool destroy
 	}
 }
 
-void copyTilesFromLocation(u8 locationId, u8 layer, bool spawns, float x, float y) {
+extern "C" void copyTilesFromLocation(u8 locationId, u8 layer, bool spawns, float x, float y) {
 	u8 areaNum = LevelInfo::instance->area;
 	Area *area = Level::instance->getArea(areaNum);
 	Location *loc = area->getLocation(0, locationId);
@@ -31,3 +31,29 @@ void copyTilesFromLocation(u8 locationId, u8 layer, bool spawns, float x, float 
 		DEBUG("Tsuru tile god location not found.");
 	}
 }
+
+ASM_START
+
+.include "macros.S"
+
+.text
+
+.global tileGodHacks
+tileGodHacks:
+	lwz r16, 0x14(r26)
+	srwi. r15, r16, 28		#Use NewerU tile god?
+	beq tileGodHacks_retail #If not, use the retail code
+	extrwi r3, r16, 4, 8	#Location ID
+	extrwi r4, r16, 4, 4	#Layer
+	mr r5, r27
+	lfs f1, 0x6C(r26)		#X
+	lfs f2, 0x70(r26)		#Y
+	bl copyTilesFromLocation
+	b returnTileGod
+
+.global tileGodHacks_retail
+tileGodHacks_retail:
+	li r16, 1
+	blr
+
+ASM_END
