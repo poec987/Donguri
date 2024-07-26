@@ -5,5 +5,5 @@ Files:
 Hooks:
   - type: branch
     instr: bl
-    addr: "0x0F2E5B18"
+    addr: "0xF2E5B18"
     func: tileGodHacks
