@@ -2,7 +2,7 @@
 #include "game/level/levelinfo.h"
 #include "game/tilemgr.h"
 
-void copyTilesInLocation(Location *loc, float x, float y, u8 layer, bool destroy) {
+void copyTilesInLocation(Level::Area::Location *loc, f32 x, f32 y, u8 layer, bool destroy) {
 	u8 rows = (loc->w >> 4) + 1;
 	u8 cols = (loc->h >> 4) + 1;
 	
@@ -20,10 +20,10 @@ void copyTilesInLocation(Location *loc, float x, float y, u8 layer, bool destroy
 	}
 }
 
-extern "C" void copyTilesFromLocation(u8 locationId, u8 layer, bool spawns, float x, float y) {
+extern "C" void copyTilesFromLocation(u8 locationId, u8 layer, bool spawns, f32 x, f32 y) {
 	u8 areaNum = LevelInfo::instance->area;
-	Area *area = Level::instance->getArea(areaNum);
-	Location *loc = area->getLocation(0, locationId);
+	Level::Area *area = Level::instance->getArea(areaNum);
+	Level::Area::Location *loc = area->getLocation(0, locationId);
 	
 	if (loc) {
 		copyTilesInLocation(loc, x, y, layer, !spawns);
@@ -41,13 +41,13 @@ ASM_START
 .global tileGodHacks
 tileGodHacks:
 	lwz r16, 0x14(r26)
-	srwi. r15, r16, 28		#Use NewerU tile god?
-	beq tileGodHacks_retail #If not, use the retail code
-	extrwi r3, r16, 4, 8	#Location ID
-	extrwi r4, r16, 4, 4	#Layer
+	srwi. r15, r16, 28		// Use NewerU tile god?
+	beq tileGodHacks_retail // If not, use the retail code
+	extrwi r3, r16, 4, 8	// Location ID
+	extrwi r4, r16, 4, 4	// Layer
 	mr r5, r27
-	lfs f1, 0x6C(r26)		#X
-	lfs f2, 0x70(r26)		#Y
+	lfs f1, 0x6C(r26)		// X
+	lfs f2, 0x70(r26)		// Y
 	bl copyTilesFromLocation
 	b 0xF2E5DB0
 
