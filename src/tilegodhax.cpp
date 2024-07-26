@@ -32,7 +32,7 @@ extern "C" void copyTilesFromLocation(u8 locationId, u8 layer, bool spawns, f32 
 	}
 }
 
-ASM_START
+ASM_BEGIN
 
 .include "macros.S"
 
