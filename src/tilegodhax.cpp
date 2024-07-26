@@ -49,7 +49,7 @@ tileGodHacks:
 	lfs f1, 0x6C(r26)		#X
 	lfs f2, 0x70(r26)		#Y
 	bl copyTilesFromLocation
-	b 0x0F2E5DB0
+	b 0xF2E5DB0
 
 .global tileGodHacks_retail
 tileGodHacks_retail:
