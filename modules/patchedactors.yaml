@@ -6,6 +6,7 @@ Files:
   - src/coinring.cpp
   - src/snowparticles.S
   - src/tilegodhax.cpp
+  - src/tilegodhax.S
 Hooks:
 #* Death Foo
 # Add the ability to spawn deathfoo clouds from Foo (replaces No Cloud setting)

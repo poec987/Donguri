@@ -29,29 +29,3 @@ extern "C" void copyTilesFromLocation(u8 locationId, u8 layer, bool spawns, f32 
 		copyTilesInLocation(loc, x, y, layer, !spawns);
 	}
 }
-
-ASM_BEGIN
-
-.include "macros.S"
-
-.text
-
-.global tileGodHacks
-tileGodHacks:
-	lwz r16, 0x14(r26)
-	srwi. r15, r16, 28		// Use NewerU tile god?
-	beq tileGodHacks_retail // If not, use the retail code
-	extrwi r3, r16, 4, 8	// Location ID
-	extrwi r4, r16, 4, 4	// Layer
-	mr r5, r27
-	lfs f1, 0x6C(r26)		// X
-	lfs f2, 0x70(r26)		// Y
-	bl copyTilesFromLocation
-	b 0x1725DB0
-
-.global tileGodHacks_retail
-tileGodHacks_retail:
-	li r16, 1
-	blr
-
-ASM_END
