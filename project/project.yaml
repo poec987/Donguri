@@ -28,7 +28,6 @@ Modules:
   - titlescreen          # Title screen patches
   - yoshicolors          # Extra colors for Yoshi
   - imgui
-  - tilegodhax           # Newer U tile god hax
 Defines:
   - cafe
   - NW_RELEASE
