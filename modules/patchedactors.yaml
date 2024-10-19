@@ -5,8 +5,6 @@ Files:
   - src/waves.cpp
   - src/coinring.cpp
   - src/snowparticles.S
-  - src/tilegodhax.cpp
-  - src/tilegodhax.S
 Hooks:
 #* Death Foo
 # Add the ability to spawn deathfoo clouds from Foo (replaces No Cloud setting)
@@ -117,9 +115,3 @@ Hooks:
     instr: bl
     addr: "0x25076D4" # SnowParticles::render()
     func: Snow2A
-
-#* Tile God
-  - type: branch
-    instr: bl
-    addr: "0xF2E5B18"
-    func: tileGodHacks
